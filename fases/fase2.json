@@ -1,0 +1,6 @@
+[
+  {"id": 1, "tipo": "parede", "x": 0, "y": 0, "largura": 800, "altura": 20, "cor": "neutro"},
+  {"id": 2, "tipo": "parede", "x": 0, "y": 580, "largura": 800, "altura": 20, "cor": "neutro"},
+  {"id": 3, "tipo": "parede", "x": 0, "y": 0, "largura": 20, "altura": 600, "cor": "neutro"},
+  {"id": 4, "tipo": "parede", "x": 780, "y": 0, "largura": 20, "altura": 600, "cor": "neutro"}
+]
