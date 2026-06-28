@@ -196,7 +196,7 @@ def processar_movimento(cor_jogador, direcao):
             
                 if  obj["tipo"] == "botao3" and cor_jogador ==  "azul":
                     if checar_colisao(x_novo, y_novo, TAMANHO_JOGADOR, obj):
-                        obj["y"] = 510
+                        obj["y"] = 540
                         obj["tipo"] = "botao31"
                         CONT2 = 1
                         colidiu = True
@@ -218,7 +218,7 @@ def processar_movimento(cor_jogador, direcao):
                         obj["altura"] = 0
                         CONT3 = 1
                         colidiu = True
-                if obj["tipo"] == "bosS2":
+                if obj["tipo"] == "bosS2" or obj["tipo"] == "bosS2-o":
                     if checar_colisao(x_novo, y_novo, TAMANHO_JOGADOR, obj):
                         estado_jogo["jogadores"][cor_jogador]["x"] = 100
                         estado_jogo["jogadores"][cor_jogador]["y"] = 210
@@ -228,9 +228,16 @@ def processar_movimento(cor_jogador, direcao):
                 if CONT2 == 1:
                     if obj["id"] == 11:
                         obj["x"] = -510
+                    
+                    if obj["tipo"] == "bosS2":
+                        obj["tipo"] = "bosS2-o"
+
                 if CONT2 == 1 and CONT3 == 1:
                         if obj["id"] == 13:
                             obj["x"] = 700
+
+                        if obj["tipo"] == "bosS2-o":
+                            obj["tipo"] = "bosS2-j"
             
 
 
@@ -240,7 +247,7 @@ def processar_movimento(cor_jogador, direcao):
 def animaBos():
     global TEMP, TEMP2
     for obj in estado_jogo["objetos_cenario"]:
-            if obj["id"] == 5:
+            if obj["id"] == 5 and obj["tipo"] == "bosS":
                 if TEMP == 0:
                     obj["x"] +=1
                 else:

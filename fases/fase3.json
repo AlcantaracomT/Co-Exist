@@ -1,0 +1,281 @@
+[
+  {
+    "id": 1,
+    "tipo": "parede",
+    "x": 0,
+    "y": 0,
+    "largura": 800,
+    "altura": 20,
+    "cor": "neutro"
+  },
+  {
+    "id": 2,
+    "tipo": "parede",
+    "x": 0,
+    "y": 580,
+    "largura": 800,
+    "altura": 20,
+    "cor": "neutro"
+  },
+  {
+    "id": 3,
+    "tipo": "parede",
+    "x": 0,
+    "y": 0,
+    "largura": 20,
+    "altura": 600,
+    "cor": "neutro"
+  },
+  {
+    "id": 4,
+    "tipo": "parede",
+    "x": 780,
+    "y": 0,
+    "largura": 20,
+    "altura": 600,
+    "cor": "neutro"
+  },
+  {
+    "id": 5,
+    "tipo": "espinho",
+    "x": 242,
+    "y": 112,
+    "largura": 18,
+    "altura": 187,
+    "cor": "neutro"
+  },
+  {
+    "id": 6,
+    "tipo": "espinho",
+    "x": 243,
+    "y": 112,
+    "largura": 144,
+    "altura": 23,
+    "cor": "neutro"
+  },
+  {
+    "id": 7,
+    "tipo": "espinho",
+    "x": 252,
+    "y": 196,
+    "largura": 75,
+    "altura": 22,
+    "cor": "neutro"
+  },
+  {
+    "id": 8,
+    "tipo": "espinho",
+    "x": 408,
+    "y": 158,
+    "largura": 23,
+    "altura": 139,
+    "cor": "neutro"
+  },
+  {
+    "id": 9,
+    "tipo": "espinho",
+    "x": 486,
+    "y": 111,
+    "largura": 20,
+    "altura": 193,
+    "cor": "neutro"
+  },
+  {
+    "id": 11,
+    "tipo": "espinho",
+    "x": 498,
+    "y": 113,
+    "largura": 47,
+    "altura": 6,
+    "cor": "neutro"
+  },
+  {
+    "id": 12,
+    "tipo": "espinho",
+    "x": 528,
+    "y": 119,
+    "largura": 17,
+    "altura": 145,
+    "cor": "neutro"
+  },
+  {
+    "id": 13,
+    "tipo": "espinho",
+    "x": 525,
+    "y": 246,
+    "largura": 67,
+    "altura": 15,
+    "cor": "neutro"
+  },
+  {
+    "id": 14,
+    "tipo": "espinho",
+    "x": 577,
+    "y": 109,
+    "largura": 18,
+    "altura": 145,
+    "cor": "neutro"
+  },
+  {
+    "id": 15,
+    "tipo": "espinho",
+    "x": 581,
+    "y": 104,
+    "largura": 63,
+    "altura": 27,
+    "cor": "neutro"
+  },
+  {
+    "id": 17,
+    "tipo": "espinho",
+    "x": 630,
+    "y": 107,
+    "largura": 28,
+    "altura": 201,
+    "cor": "neutro"
+  },
+  {
+    "id": 18,
+    "tipo": "espinho",
+    "x": 674,
+    "y": 40,
+    "largura": 8,
+    "altura": 8,
+    "cor": "neutro"
+  },
+  {
+    "id": 19,
+    "tipo": "espinho",
+    "x": 712,
+    "y": 42,
+    "largura": 6,
+    "altura": 6,
+    "cor": "neutro"
+  },
+  {
+    "id": 20,
+    "tipo": "espinho",
+    "x": 687,
+    "y": 25,
+    "largura": 12,
+    "altura": 12,
+    "cor": "neutro"
+  },
+  {
+    "id": 21,
+    "tipo": "espinho",
+    "x": 687,
+    "y": 53,
+    "largura": 9,
+    "altura": 14,
+    "cor": "neutro"
+  },
+  {
+    "id": 23,
+    "tipo": "espinho",
+    "x": 527,
+    "y": 23,
+    "largura": 9,
+    "altura": 9,
+    "cor": "neutro"
+  },
+  {
+    "id": 24,
+    "tipo": "espinho",
+    "x": 553,
+    "y": 38,
+    "largura": 13,
+    "altura": 14,
+    "cor": "neutro"
+  },
+  {
+    "id": 25,
+    "tipo": "espinho",
+    "x": 498,
+    "y": 36,
+    "largura": 12,
+    "altura": 12,
+    "cor": "neutro"
+  },
+  {
+    "id": 26,
+    "tipo": "espinho",
+    "x": 519,
+    "y": 63,
+    "largura": 18,
+    "altura": 15,
+    "cor": "neutro"
+  },
+  {
+    "id": 27,
+    "tipo": "espinho",
+    "x": 388,
+    "y": 35,
+    "largura": 16,
+    "altura": 9,
+    "cor": "neutro"
+  },
+  {
+    "id": 28,
+    "tipo": "espinho",
+    "x": 399,
+    "y": 62,
+    "largura": 16,
+    "altura": 16,
+    "cor": "neutro"
+  },
+  {
+    "id": 29,
+    "tipo": "espinho",
+    "x": 716,
+    "y": 203,
+    "largura": 12,
+    "altura": 10,
+    "cor": "neutro"
+  },
+  {
+    "id": 30,
+    "tipo": "espinho",
+    "x": 710,
+    "y": 118,
+    "largura": 13,
+    "altura": 20,
+    "cor": "neutro"
+  },
+  {
+    "id": 31,
+    "tipo": "espinho",
+    "x": 726,
+    "y": 164,
+    "largura": 13,
+    "altura": 16,
+    "cor": "neutro"
+  },
+  {
+    "id": 32,
+    "tipo": "espinho",
+    "x": 696,
+    "y": 163,
+    "largura": 17,
+    "altura": 17,
+    "cor": "neutro"
+  },
+  {
+    "id": 33,
+    "tipo": "espinho",
+    "x": 375,
+    "y": 52,
+    "largura": 14,
+    "altura": 12,
+    "cor": "neutro"
+  },
+  {
+    "id": 34,
+    "tipo": "espinho",
+    "x": 421,
+    "y": 35,
+    "largura": 16,
+    "altura": 17,
+    "cor": "neutro"
+  }
+]

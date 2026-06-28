@@ -126,6 +126,10 @@ class Interface_jogo:
                 if cor_local != "vermelho":
                     continue
                 cor_desenho = COR_VERDE
+            elif obj["tipo"] == "bosS2-o":
+                if cor_local != "azul":
+                    continue
+                cor_desenho = COR_VERDE
 
             elif obj["tipo"] == "bosS2-j":
                 cor_desenho = COR_B
