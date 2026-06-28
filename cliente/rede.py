@@ -54,7 +54,6 @@ class Rede_cliente:
                 while "\n" in Buffer:
                     linha, Buffer = Buffer.split("\n", 1)
                     
-                    # CORRIGIDO: Checagem simples, limpa e segura para strings vazias
                     if not linha.strip():
                         continue
 

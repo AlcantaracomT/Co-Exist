@@ -9,11 +9,15 @@ from compartilhado.protocolo import LARGURA_TELA, ALTURA_TELA, RES_LOGAR, ST_GAM
 
 HOST = '0.0.0.0'
 PORTA = 5000
+TEMP = 0
+
+CONT2 = 0
+CONT3 = 0
 
 def carregar_mapa_do_disco(numero_fase):
     """Lê o arquivo JSON correspondente à fase usando caminhos absolutos seguros."""
     diretorio_atual = os.path.dirname(os.path.abspath(__file__))
-    raiz_projeto = os.path.dirname(diretorio_atual) # Sobe um nível para a raiz do projeto
+    raiz_projeto = os.path.dirname(diretorio_atual) 
     caminho_arquivo = os.path.join(raiz_projeto, "fases", f"fase{numero_fase}.json")
     
     print(f"[DEBUG SERVIDOR] Tentando carregar o mapa de: {caminho_arquivo}")
@@ -38,6 +42,7 @@ estado_jogo = {
     },
     "objetos_cenario": carregar_mapa_do_disco(1),
     "botao_pressionado": False,
+    "foi": False,
     "fase_atual": 1,
     "fim_de_jogo": False
 }
@@ -54,24 +59,54 @@ def atualizar_clientes():
             pass
 
 def checar_colisao(x_player, y_player, tamanho, obj):
-    p_esquerda = x_player - tamanho // 2
-    p_direita = x_player + tamanho // 2
-    p_topo = y_player - tamanho // 2
-    p_baixo = y_player + tamanho // 2
-
+    p_esquerda = (x_player) - tamanho // 2
+    p_direita = (x_player) + tamanho // 2
+    p_topo = (y_player)- tamanho // 2
+    p_baixo = (y_player) + tamanho // 2
+    
     o_esquerda = obj["x"]
     o_direita = obj["x"] + obj["largura"]
     o_topo = obj["y"]
     o_baixo = obj["y"] + obj["altura"]
 
-    if (p_direita > o_esquerda and p_esquerda < o_direita and
-            p_baixo > o_topo and p_topo < o_baixo):
+    if (p_direita >= o_esquerda and p_esquerda <= o_direita and
+            p_baixo >= o_topo and p_topo <= o_baixo):
         return True
     return False
 
+def notColidindo(cor_jogador, x_novo, y_novo, TAMANHO_JOGADOR):
+    estado_jogo["jogadores"][cor_jogador]["x"] = x_novo
+    estado_jogo["jogadores"][cor_jogador]["y"] = y_novo
+
+    x_azul = estado_jogo["jogadores"]["azul"]["x"]
+    y_azul = estado_jogo["jogadores"]["azul"]["y"]
+    x_vermelho = estado_jogo["jogadores"]["vermelho"]["x"]
+    y_vermelho = estado_jogo["jogadores"]["vermelho"]["y"]
+
+    for obj in estado_jogo["objetos_cenario"]:
+        if obj["tipo"] == "objetivo":
+            if (checar_colisao(x_azul, y_azul, TAMANHO_JOGADOR, obj) and 
+                checar_colisao(x_vermelho, y_vermelho, TAMANHO_JOGADOR, obj)):
+                
+                proxima_fase = estado_jogo["fase_atual"] + 1
+                novo_mapa = carregar_mapa_do_disco(proxima_fase)
+                
+                if novo_mapa is not None:
+                    estado_jogo["fase_atual"] = proxima_fase
+                    estado_jogo["objetos_cenario"] = novo_mapa
+                    estado_jogo["jogadores"]["vermelho"] = {"x": 100, "y": 300}
+                    estado_jogo["jogadores"]["azul"] = {"x": 110, "y": 300}
+                    print(f"[SERVIDOR] Avançando para a Fase {proxima_fase}!")
+                    return
+                else:
+                    estado_jogo["fim_de_jogo"] = True
+                    print("[SERVIDOR] Fim de jogo alcançado!")
+                    return
+
 def processar_movimento(cor_jogador, direcao):
     PASSO = 5
-    TAMANHO_JOGADOR = 2
+    TAMANHO_JOGADOR = 22
+    global CONT2, CONT3
 
     with lock:
         x_atual = estado_jogo["jogadores"][cor_jogador]["x"]
@@ -95,6 +130,7 @@ def processar_movimento(cor_jogador, direcao):
             y_novo = y_atual
 
         colidiu = False
+
         for obj in estado_jogo["objetos_cenario"]:
             if obj["cor"] == "neutro":
                 if checar_colisao(x_novo, y_novo, TAMANHO_JOGADOR, obj):
@@ -108,53 +144,118 @@ def processar_movimento(cor_jogador, direcao):
                 if checar_colisao(x_novo, y_novo, TAMANHO_JOGADOR, obj):
                     colidiu = True
                     break
+
+            if  obj["tipo"] == "botao1" and cor_jogador ==  "azul":
+                if checar_colisao(x_novo, y_novo, TAMANHO_JOGADOR, obj):
+                    obj["y"] = 510
+                    obj["tipo"] = "botao2"
+                    colidiu = True
+                    break
+
+            elif obj["tipo"] == "botao2" and cor_jogador ==  "vermelho":
+                if checar_colisao(x_novo, y_novo, TAMANHO_JOGADOR, obj):
+                    obj["y"] = 300
+                    obj["x"] = 50
+                    obj["largura"] = 40
+                    obj["tipo"] = "botao1-2"
+                    colidiu = True
+                    break
+
+            elif obj["tipo"] == "botao1-2":
+                x_azul = estado_jogo["jogadores"]["azul"]["x"]
+                y_azul = estado_jogo["jogadores"]["azul"]["y"]
+                x_vermelho = estado_jogo["jogadores"]["vermelho"]["x"]
+                y_vermelho = estado_jogo["jogadores"]["vermelho"]["y"]
+                if (checar_colisao(x_azul, y_azul, TAMANHO_JOGADOR, obj) and 
+                checar_colisao(x_vermelho, y_vermelho, TAMANHO_JOGADOR, obj)):
+                    obj["largura"] = 0
+                    obj["altura"] = 0
+                    estado_jogo["botao_pressionado"] = True
+                    colidiu = True
+                    break
+
+            if obj["tipo"] == "bosS":
+                if checar_colisao(x_novo, y_novo, TAMANHO_JOGADOR, obj):
+                    estado_jogo["jogadores"][cor_jogador]["x"] = 100
+                    estado_jogo["jogadores"][cor_jogador]["y"] = 210
+                    colidiu = True
+                    break
+
+            if estado_jogo["botao_pressionado"] == True: 
+                if obj["id"] == 5:
+                    obj["x"] = -300
+
+                if obj["tipo"] == "espinho":
+                    obj["x"] = 120
+
+                if obj["id"] == 12:
+                    obj["x"] = 700
+
+                if obj["tipo"] == "bosS2-j":
+                    obj["tipo"] = "bosS2"
             
-        if not colidiu:
-            estado_jogo["jogadores"][cor_jogador]["x"] = x_novo
-            estado_jogo["jogadores"][cor_jogador]["y"] = y_novo
-
-            botoes_ativos = set()
-
-            x_azul = estado_jogo["jogadores"]["azul"]["x"]
-            y_azul = estado_jogo["jogadores"]["azul"]["y"]
-            x_vermelho = estado_jogo["jogadores"]["vermelho"]["x"]
-            y_vermelho = estado_jogo["jogadores"]["vermelho"]["y"]
-
-            for obj in estado_jogo["objetos_cenario"]:
-                if obj["tipo"] == "objetivo":
+                if  obj["tipo"] == "botao3" and cor_jogador ==  "azul":
+                    if checar_colisao(x_novo, y_novo, TAMANHO_JOGADOR, obj):
+                        obj["y"] = 510
+                        obj["tipo"] = "botao31"
+                        CONT2 = 1
+                        colidiu = True
+                if obj["tipo"] == "botao31" and cor_jogador ==  "vermelho":
+                    if checar_colisao(x_novo, y_novo, TAMANHO_JOGADOR, obj):
+                        obj["y"] = 300
+                        obj["x"] = 50
+                        obj["largura"] = 40
+                        obj["tipo"] = "botao32"
+                        colidiu = True
+                elif obj["tipo"] == "botao32":
+                    x_azul = estado_jogo["jogadores"]["azul"]["x"]
+                    y_azul = estado_jogo["jogadores"]["azul"]["y"]
+                    x_vermelho = estado_jogo["jogadores"]["vermelho"]["x"]
+                    y_vermelho = estado_jogo["jogadores"]["vermelho"]["y"]
                     if (checar_colisao(x_azul, y_azul, TAMANHO_JOGADOR, obj) and 
-                        checar_colisao(x_vermelho, y_vermelho, TAMANHO_JOGADOR, obj)):
-                        
-                        proxima_fase = estado_jogo["fase_atual"] + 1
-                        novo_mapa = carregar_mapa_do_disco(proxima_fase)
-                        
-                        if novo_mapa is not None:
-                            estado_jogo["fase_atual"] = proxima_fase
-                            estado_jogo["objetos_cenario"] = novo_mapa
-                            estado_jogo["jogadores"]["vermelho"] = {"x": 100, "y": 300}
-                            estado_jogo["jogadores"]["azul"] = {"x": 110, "y": 300}
-                            print(f"[SERVIDOR] Avançando para a Fase {proxima_fase}!")
-                            return
-                        else:
-                            estado_jogo["fim_de_jogo"] = True
-                            print("[SERVIDOR] Fim de jogo alcançado!")
-                            return
+                    checar_colisao(x_vermelho, y_vermelho, TAMANHO_JOGADOR, obj)):
+                        obj["largura"] = 0
+                        obj["altura"] = 0
+                        CONT3 = 1
+                        colidiu = True
+                if obj["tipo"] == "bosS2":
+                    if checar_colisao(x_novo, y_novo, TAMANHO_JOGADOR, obj):
+                        estado_jogo["jogadores"][cor_jogador]["x"] = 100
+                        estado_jogo["jogadores"][cor_jogador]["y"] = 210
+                        colidiu = True
+                        break
 
-                if obj["tipo"] == "botao":
-                    if (checar_colisao(x_azul, y_azul, TAMANHO_JOGADOR, obj) or 
-                        checar_colisao(x_vermelho, y_vermelho, TAMANHO_JOGADOR, obj)):
-                        botoes_ativos.add(obj["ativa"])
-
-            mapa_limpo = carregar_mapa_do_disco(estado_jogo["fase_atual"])
+                if CONT2 == 1:
+                    if obj["id"] == 11:
+                        obj["x"] = -510
+                if CONT2 == 1 and CONT3 == 1:
+                        if obj["id"] == 13:
+                            obj["x"] = 700
             
-            if mapa_limpo:
-                novos_objetos = []
-                for obj in mapa_limpo:
-                    if obj["tipo"] == "porta" and obj["grupo"] in botoes_ativos:
-                        continue
-                    novos_objetos.append(obj)
-                
-                estado_jogo["objetos_cenario"] = novos_objetos
+
+
+        if not colidiu:
+            notColidindo(cor_jogador, x_novo, y_novo, TAMANHO_JOGADOR)
+
+def animaBos():
+    global TEMP, TEMP2
+    for obj in estado_jogo["objetos_cenario"]:
+            if obj["id"] == 5:
+                if TEMP == 0:
+                    obj["x"] +=1
+                else:
+                    obj["x"] -=1
+                if obj["x"] == 300:
+                    TEMP = 1
+                elif obj["x"] == 200:
+                    TEMP = 0
+def gameLoop():
+    while True:
+        with lock:
+            animaBos()
+            atualizar_clientes()
+        time.sleep(0.05)
+
 
 def gerenciar_cliente(sock_cliente, cor_jogador):
     print(f"[SERVIDOR] Thread iniciada para o jogador {cor_jogador}")
@@ -207,6 +308,9 @@ def iniciar_servidor():
     sock_servidor.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock_servidor.bind((HOST, PORTA))
     sock_servidor.listen(2)
+    t_game = threading.Thread(target=gameLoop)
+    t_game.daemon = True
+    t_game.start()
 
     print(f"[SERVIDOR] Servidor iniciado na porta {PORTA}")
 

@@ -8,10 +8,11 @@ COR_NEUTRA = (50, 50, 50)
 COR_AZUL = (0, 122, 255)        
 COR_VERMELHO = (255, 59, 48)     
 COR_TEXTO = (100, 100, 100)
-COR_RASTRO = (0, 255, 156)
 
-COR_BOTAO = (0, 200, 100)       
+COR_BOTAO = (0, 200, 100)     
 COR_VITORIA = (255, 215, 0)     
+COR_VERDE = (0, 255, 0) 
+COR_B = (240, 240, 240)
 
 class Interface_jogo:
     def __init__(self, rede_cliente):
@@ -95,18 +96,39 @@ class Interface_jogo:
             if obj["cor"] == "azul" and cor_local == "vermelho":
                 continue
 
-            if obj["tipo"] == "botao":
+            if obj["tipo"] == "botao1":
+                if cor_local != "vermelho":
+                    continue
+                cor_desenho = COR_BOTAO
+            if obj["tipo"] == "botao2":
+                if cor_local != "azul":
+                    continue
+                cor_desenho = COR_BOTAO
+            elif obj["tipo"] == "botao1-2":
+                cor_desenho = COR_BOTAO
+            elif obj["tipo"] == "botao3":
+                cor_desenho = COR_BOTAO
+            elif obj["tipo"] == "botao31":
+                cor_desenho = COR_BOTAO
+            elif obj["tipo"] == "botao32":
                 cor_desenho = COR_BOTAO
             elif obj["tipo"] == "objetivo":
                 cor_desenho = COR_VITORIA
             elif obj["cor"] == "neutro":
                 cor_desenho = COR_NEUTRA
-            elif obj["cor"] == "rastro":
-                cor_desenho = COR_RASTRO
             elif obj["cor"] == "azul":
                 cor_desenho = COR_VERMELHO
-            else:
+            elif obj["cor"] == "vermelho":
                 cor_desenho = COR_AZUL
+            elif obj["tipo"] == "bosS":
+                cor_desenho = COR_VERDE
+            elif obj["tipo"] == "bosS2":
+                if cor_local != "vermelho":
+                    continue
+                cor_desenho = COR_VERDE
+
+            elif obj["tipo"] == "bosS2-j":
+                cor_desenho = COR_B
 
             pygame.draw.rect(self.tela, cor_desenho, (obj["x"], obj["y"], obj["largura"], obj["altura"]))
 
