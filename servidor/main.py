@@ -13,6 +13,7 @@ TEMP = 0
 
 CONT2 = 0
 CONT3 = 0
+CONT4 = 0
 
 def carregar_mapa_do_disco(numero_fase):
     """Lê o arquivo JSON correspondente à fase usando caminhos absolutos seguros."""
@@ -106,7 +107,7 @@ def notColidindo(cor_jogador, x_novo, y_novo, TAMANHO_JOGADOR):
 def processar_movimento(cor_jogador, direcao):
     PASSO = 5
     TAMANHO_JOGADOR = 22
-    global CONT2, CONT3
+    global CONT2, CONT3, CONT4
 
     with lock:
         x_atual = estado_jogo["jogadores"][cor_jogador]["x"]
@@ -202,10 +203,13 @@ def processar_movimento(cor_jogador, direcao):
                         colidiu = True
                 if obj["tipo"] == "botao31" and cor_jogador ==  "vermelho":
                     if checar_colisao(x_novo, y_novo, TAMANHO_JOGADOR, obj):
-                        obj["y"] = 300
-                        obj["x"] = 50
-                        obj["largura"] = 40
+                        obj["y"] = 200
+                        obj["x"] = 700
+                        obj["largura"] = 53
+                        obj["altura"] = 40
                         obj["tipo"] = "botao32"
+                        if CONT2 == 1:
+                            CONT4 = 1
                         colidiu = True
                 elif obj["tipo"] == "botao32":
                     x_azul = estado_jogo["jogadores"]["azul"]["x"]
@@ -238,7 +242,10 @@ def processar_movimento(cor_jogador, direcao):
 
                         if obj["tipo"] == "bosS2-o":
                             obj["tipo"] = "bosS2-j"
-            
+                
+                if CONT4 == 1:
+                    if obj["tipo"] == "bosS2":
+                        obj["x"] = -810
 
 
         if not colidiu:
