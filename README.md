@@ -80,13 +80,13 @@ pip install pygame
 Inicie primeiro o servidor:
 
 ```bash
-python servidor/main.py
+python -m servidor.main
 ```
 
 Depois execute os clientes:
 
 ```bash
-python cliente/main.py
+python -m cliente.main
 ```
 
 O primeiro cliente conectado receberá a identidade **Azul**.
